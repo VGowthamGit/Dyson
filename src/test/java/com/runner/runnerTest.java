@@ -2,14 +2,14 @@ package com.runner;
 
 import org.junit.runner.RunWith;
 
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
+import io.cucumber.junit.Cucumber;
+
+
 
 
 @RunWith(Cucumber.class)
-@CucumberOptions(monochrome = true, dryRun =false,
-features = { "src/test/resources/com/dysontest/weather.feature" }, 
-
+@io.cucumber.junit.CucumberOptions(monochrome = true, dryRun =false,
+features = { "src/test/resources" }, 
 glue = { "com.dysontest" },
 plugin={"pretty", "html:target/cucumber"})
 
