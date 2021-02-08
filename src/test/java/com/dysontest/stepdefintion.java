@@ -1,12 +1,13 @@
 package com.dysontest;
 
 import java.io.IOException;
-import java.net.URL;
-import org.junit.Assert;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import com.pages.outdoordata;
-import com.pages.weatherpage;
 
+import org.junit.Assert;
+
+import com.pages.OutdoorPage;
+import com.pages.WeatherPage;
+
+import appiumdriver.AndroidDriver;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.cucumber.java.After;
@@ -15,33 +16,26 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+public class Stepdefintion {
+	private OutdoorPage outdoor;
+	private WeatherPage weather;
+	public AndroidDriver driverClass=new AndroidDriver();
+	AppiumDriver<MobileElement> driver;
 
-
-public class stepdefintion {
-	private outdoordata outdoor;
-	private weatherpage weather;
-	static AppiumDriver<MobileElement> driver;	
 	@Before
 	public void start_Driver() throws IOException {
 	    // Write code here that turns the phrase above into concrete actions
+		driver=driverClass.setUpDriver();
 		
-		DesiredCapabilities cap  =  new DesiredCapabilities();
-		   cap.setCapability("deviceName", "sdk_gphone_x86_arm");
-		   cap.setCapability("udid", "emulator-5554");
-		   cap.setCapability("platformName", "Android");
-		   cap.setCapability("platformVersion", "11");
-		   cap.setCapability("appPackage", "com.dyson.recruitment.test");
-		   cap.setCapability("appActivity", "com.dyson.recruitment.test.ui.splash.SplashScreenActivity");
-		   URL url = new URL("http://127.0.0.1:4723/wd/hub");
-		   driver = new AppiumDriver<MobileElement>(url,cap);
-		   System.out.println("Application Started");
+		outdoor = new OutdoorPage(driver);
+		weather = new WeatherPage(driver);
 	}
 	
 	@Given("I have an internet connection")
 	public void i_have_an_internet_connection() {
 	    // Write code here that turns the phrase above into concrete actions
-		outdoor = new outdoordata(driver);
-		//Assert.assertEquals("Connected",outdoor.connection.getText());
+		
+		Assert.assertEquals("Connected",outdoor.connection.getText());
 			
 	}
 
@@ -51,7 +45,7 @@ public class stepdefintion {
 		
 		outdoor.fetchdata.click();
 		
-		//Assert.assertEquals("Data Collected	", outdoor.datacollected_verification.getText());
+		Assert.assertEquals("Data Collected", outdoor.datacollected_verification.getText());
 		
 		outdoor.Viewresults.click();
 	}
@@ -59,19 +53,20 @@ public class stepdefintion {
 	@Then("I can see the weather and temperature for today")
 	public void i_can_see_the_weather_and_temperature_for_today() {
 	    // Write code here that turns the phrase above into concrete actions
-		weather = new weatherpage(driver);
+		
 		
 		System.out.println(weather.weatherinfo.getText());
+		Assert.assertTrue(weather.weatherinfo.isDisplayed());
 		
 		System.out.println(weather.temperatureinfo.getText());
+		Assert.assertTrue(weather.temperatureinfo.isDisplayed());
 	}
 	
 	@After
 	public void close_Driver() {
 	    // Write code here that turns the phrase above into concrete actions
 		weather.done.click();
-		driver.close();
-	    driver.quit();
+		driverClass.closeDriver();
 	}
 
 }

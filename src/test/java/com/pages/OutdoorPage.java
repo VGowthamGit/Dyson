@@ -8,7 +8,7 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
-public class outdoordata {
+public class OutdoorPage {
 	
 	public AppiumDriver<MobileElement> driver;
 	
@@ -25,7 +25,7 @@ public class outdoordata {
 	public MobileElement Viewresults;
 	
 	
-	public outdoordata(AppiumDriver<MobileElement> driver) {
+	public OutdoorPage(AppiumDriver<MobileElement> driver) {
 	this.driver = driver;
 	PageFactory.initElements(new AppiumFieldDecorator(driver), this);
 	
